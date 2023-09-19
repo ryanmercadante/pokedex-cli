@@ -6,18 +6,18 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ryanmercadante/pokedex-cli/internal/pokemon"
+	"github.com/ryanmercadante/pokedex-cli/internal/pokeapi"
 )
 
-func startRepl() {
+type config struct {
+	pokeapiClient    pokeapi.Client
+	nextLocationsURL *string
+	prevLocationsURL *string
+}
+
+func startRepl(cfg *config) {
 	// Create a new scanner to read from standard input
 	scanner := bufio.NewScanner(os.Stdin)
-
-	pokeCfg := pokemon.PokeConfig{
-		Next:      "https://pokeapi.co/api/v2/location-area/?offset=0&limit=20",
-		Previous:  nil,
-		Locations: [20]string{},
-	}
 
 	for {
 		fmt.Print("Pokedex > ")
@@ -34,9 +34,9 @@ func startRepl() {
 		}
 
 		commandName := words[0]
-		command, exists := getCommands(&pokeCfg)[commandName]
+		command, exists := getCommands()[commandName]
 		if exists {
-			err := command.callback(&pokeCfg)
+			err := command.callback(cfg)
 			if err != nil {
 				fmt.Println(err)
 			}
@@ -57,30 +57,30 @@ func cleanInput(text string) []string {
 type cliCommand struct {
 	name        string
 	description string
-	callback    func(cfg *pokemon.PokeConfig) error
+	callback    func(*config) error
 }
 
-func getCommands(cfg *pokemon.PokeConfig) map[string]cliCommand {
+func getCommands() map[string]cliCommand {
 	return map[string]cliCommand{
 		"help": {
 			name:        "help",
 			description: "Displays a help message",
 			callback:    commandHelp,
 		},
-		"exit": {
-			name:        "exit",
-			description: "Exit the Pokedex",
-			callback:    commandExit,
-		},
 		"map": {
 			name:        "map",
 			description: "Displays the next 20 location areas",
-			callback:    mapf,
+			callback:    commandMapf,
 		},
 		"mapb": {
 			name:        "mapb",
 			description: "Displays the previous 20 location areas",
-			callback:    mapb,
+			callback:    commandMapb,
+		},
+		"exit": {
+			name:        "exit",
+			description: "Exit the Pokedex",
+			callback:    commandExit,
 		},
 	}
 }
