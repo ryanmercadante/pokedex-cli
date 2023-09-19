@@ -1,8 +1,12 @@
 package main
 
-import "os"
+import (
+	"os"
 
-func commandExit() error {
+	"github.com/ryanmercadante/pokedex-cli/internal/pokemon"
+)
+
+func commandExit(_ *pokemon.PokeConfig) error {
 	os.Exit(0)
 	return nil
 }

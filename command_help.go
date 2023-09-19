@@ -1,13 +1,17 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
 
-func commandHelp() error {
+	"github.com/ryanmercadante/pokedex-cli/internal/pokemon"
+)
+
+func commandHelp(cfg *pokemon.PokeConfig) error {
 	fmt.Println()
 	fmt.Println("Welcome to the Pokedex!")
 	fmt.Println("Usage:")
 	fmt.Println()
-	for _, cmd := range getCommands() {
+	for _, cmd := range getCommands(cfg) {
 		fmt.Printf("%s: %s\n", cmd.name, cmd.description)
 	}
 	fmt.Println()
