@@ -6,10 +6,16 @@ import (
 	"github.com/ryanmercadante/pokedex-cli/internal/pokeapi"
 )
 
+type config struct {
+	pokeapiClient       pokeapi.Client
+	nextLocationAreaURL *string
+	prevLocationAreaURL *string
+}
+
 func main() {
-	pokeClient := pokeapi.NewClient(5 * time.Second)
 	cfg := &config{
-		pokeapiClient: pokeClient,
+		pokeapiClient: pokeapi.NewClient(5 * time.Hour),
 	}
+
 	startRepl(cfg)
 }
