@@ -57,49 +57,49 @@ func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResp, error) {
 	return locationsAreasResp, nil
 }
 
-func (c *Client) ListLocationAreaPokemon(area *string) (LocationAreaPokemonResp, error) {
-	endpoint := "/location-area/" + *area
+func (c *Client) ListLocationAreaPokemon(area string) (LocationAreaResp, error) {
+	endpoint := "/location-area/" + area
 	fullURL := baseURL + endpoint
 
 	// check the cache
 	data, ok := c.cache.Get(fullURL)
 	if ok {
 		// cache hit
-		locAreaPokemon := LocationAreaPokemonResp{}
-		err := json.Unmarshal(data, &locAreaPokemon)
+		locationArea := LocationAreaResp{}
+		err := json.Unmarshal(data, &locationArea)
 		if err != nil {
-			return LocationAreaPokemonResp{}, err
+			return LocationAreaResp{}, err
 		}
-		return locAreaPokemon, nil
+		return locationArea, nil
 	}
 
 	req, err := http.NewRequest("GET", fullURL, nil)
 	if err != nil {
-		return LocationAreaPokemonResp{}, err
+		return LocationAreaResp{}, err
 	}
 
 	resp, err := c.httpClient.Do(req)
 	if err != nil {
-		return LocationAreaPokemonResp{}, err
+		return LocationAreaResp{}, err
 	}
 	defer resp.Body.Close()
 
 	if resp.StatusCode > 399 {
-		return LocationAreaPokemonResp{}, fmt.Errorf("bas status code: %v", resp.StatusCode)
+		return LocationAreaResp{}, fmt.Errorf("bas status code: %v", resp.StatusCode)
 	}
 
 	data, err = io.ReadAll(resp.Body)
 	if err != nil {
-		return LocationAreaPokemonResp{}, err
+		return LocationAreaResp{}, err
 	}
 
-	locAreaPokemon := LocationAreaPokemonResp{}
-	err = json.Unmarshal(data, &locAreaPokemon)
+	locationArea := LocationAreaResp{}
+	err = json.Unmarshal(data, &locationArea)
 	if err != nil {
-		return LocationAreaPokemonResp{}, err
+		return LocationAreaResp{}, err
 	}
 
 	c.cache.Add(fullURL, data)
 
-	return locAreaPokemon, nil
+	return locationArea, nil
 }
