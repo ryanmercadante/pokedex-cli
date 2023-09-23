@@ -57,7 +57,7 @@ func (c *Client) ListLocationAreas(pageURL *string) (LocationAreasResp, error) {
 	return locationsAreasResp, nil
 }
 
-func (c *Client) ListLocationAreaPokemon(area string) (LocationAreaResp, error) {
+func (c *Client) GetLocationArea(area string) (LocationAreaResp, error) {
 	endpoint := "/location-area/" + area
 	fullURL := baseURL + endpoint
 
