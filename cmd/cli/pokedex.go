@@ -1,10 +1,10 @@
-package main
+package cli
 
 import "fmt"
 
-func commandPokedex(cfg *config, _ ...string) error {
+func pokedex(cfg *CliConfig, _ ...string) error {
 	fmt.Println("\nYour Pokedex:")
-	for k := range cfg.caughtPokemon {
+	for k := range cfg.CaughtPokemon {
 		fmt.Printf(" - %s\n", k)
 	}
 	fmt.Println()

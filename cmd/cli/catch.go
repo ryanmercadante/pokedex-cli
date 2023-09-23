@@ -1,4 +1,4 @@
-package main
+package cli
 
 import (
 	"errors"
@@ -6,7 +6,7 @@ import (
 	"math/rand"
 )
 
-func commandCatch(cfg *config, args ...string) error {
+func catch(cfg *CliConfig, args ...string) error {
 	if len(args) != 1 {
 		return errors.New("must provide a pokemon to catch")
 	}
@@ -18,7 +18,7 @@ func commandCatch(cfg *config, args ...string) error {
 	pokemonName := args[0]
 	locationAreaName := *cfg.currentLocation
 
-	resp, err := cfg.pokeapiClient.GetLocationArea(locationAreaName)
+	resp, err := cfg.PokeapiClient.GetLocationArea(locationAreaName)
 	if err != nil {
 		return err
 	}
@@ -27,7 +27,7 @@ func commandCatch(cfg *config, args ...string) error {
 		if pokemon.Pokemon.Name == pokemonName {
 			fmt.Printf("Throwing a Pokeball at %s...\n", pokemonName)
 
-			pokemon, err := cfg.pokeapiClient.GetPokemonInfo(pokemonName)
+			pokemon, err := cfg.PokeapiClient.GetPokemonInfo(pokemonName)
 			if err != nil {
 				return err
 			}
@@ -39,7 +39,7 @@ func commandCatch(cfg *config, args ...string) error {
 			}
 
 			fmt.Printf("%s was caught!\n", pokemonName)
-			cfg.caughtPokemon[pokemonName] = pokemon
+			cfg.CaughtPokemon[pokemonName] = pokemon
 
 			return nil
 		}

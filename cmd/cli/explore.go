@@ -1,11 +1,11 @@
-package main
+package cli
 
 import (
 	"errors"
 	"fmt"
 )
 
-func commandExplore(cfg *config, _ ...string) error {
+func explore(cfg *CliConfig, _ ...string) error {
 	if cfg.currentLocation == nil {
 		return errors.New("travel to a specific location in order to explore")
 	}
@@ -13,7 +13,7 @@ func commandExplore(cfg *config, _ ...string) error {
 	locationAreaName := *cfg.currentLocation
 	fmt.Printf("Exploring %s...\n", locationAreaName)
 
-	resp, err := cfg.pokeapiClient.GetLocationArea(locationAreaName)
+	resp, err := cfg.PokeapiClient.GetLocationArea(locationAreaName)
 	if err != nil {
 		return err
 	}

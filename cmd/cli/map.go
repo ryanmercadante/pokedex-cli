@@ -1,12 +1,12 @@
-package main
+package cli
 
 import (
 	"errors"
 	"fmt"
 )
 
-func commandMapf(cfg *config, _ ...string) error {
-	locationAreasResp, err := cfg.pokeapiClient.ListLocationAreas(cfg.nextLocationAreaURL)
+func mapf(cfg *CliConfig, _ ...string) error {
+	locationAreasResp, err := cfg.PokeapiClient.ListLocationAreas(cfg.nextLocationAreaURL)
 	if err != nil {
 		return err
 	}
@@ -22,12 +22,12 @@ func commandMapf(cfg *config, _ ...string) error {
 	return nil
 }
 
-func commandMapb(cfg *config, _ ...string) error {
+func mapb(cfg *CliConfig, _ ...string) error {
 	if cfg.prevLocationAreaURL == nil {
 		return errors.New("you're on the first page")
 	}
 
-	locationAreasResp, err := cfg.pokeapiClient.ListLocationAreas(cfg.prevLocationAreaURL)
+	locationAreasResp, err := cfg.PokeapiClient.ListLocationAreas(cfg.prevLocationAreaURL)
 	if err != nil {
 		return err
 	}

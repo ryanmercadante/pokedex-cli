@@ -1,17 +1,17 @@
-package main
+package cli
 
 import (
 	"errors"
 	"fmt"
 )
 
-func commandInspect(cfg *config, args ...string) error {
+func inspect(cfg *CliConfig, args ...string) error {
 	if len(args) != 1 {
 		return errors.New("must provide a pokemon to inspect")
 	}
 
 	pokemonName := args[0]
-	pokemon, ok := cfg.caughtPokemon[pokemonName]
+	pokemon, ok := cfg.CaughtPokemon[pokemonName]
 	if !ok {
 		return fmt.Errorf("you haven't caught a %s yet", pokemonName)
 	}
