@@ -4,13 +4,13 @@ import (
 	"time"
 
 	"github.com/ryanmercadante/pokedex-cli/cmd/cli"
-	"github.com/ryanmercadante/pokedex-cli/internal/pokeapi"
+	"github.com/ryanmercadante/pokedex-cli/internal/api"
 )
 
 func main() {
 	cfg := cli.CliConfig{
-		PokeapiClient: pokeapi.NewClient(5 * time.Hour),
-		CaughtPokemon: make(map[string]pokeapi.PokemonResp),
+		PokeapiClient: api.NewClient(5 * time.Hour),
+		CaughtPokemon: make(map[string]api.Pokemon),
 	}
 
 	cli.StartCli(&cfg)

@@ -1,22 +1,22 @@
-package pokeapi
+package api
 
 import (
 	"net/http"
 	"time"
 
-	"github.com/ryanmercadante/pokedex-cli/internal/pokecache"
+	"github.com/ryanmercadante/pokedex-cli/internal/cache"
 )
 
 const baseURL = "https://pokeapi.co/api/v2"
 
 type Client struct {
-	cache      pokecache.Cache
+	cache      cache.Cache
 	httpClient http.Client
 }
 
 func NewClient(interval time.Duration) Client {
 	return Client{
-		cache: pokecache.NewCache(interval),
+		cache: cache.NewCache(interval),
 		httpClient: http.Client{
 			Timeout: time.Minute,
 		},

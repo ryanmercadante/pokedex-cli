@@ -6,14 +6,14 @@ import (
 	"os"
 	"strings"
 
-	"github.com/ryanmercadante/pokedex-cli/internal/pokeapi"
+	"github.com/ryanmercadante/pokedex-cli/internal/api"
 )
 
 type CliConfig struct {
-	PokeapiClient       pokeapi.Client
+	PokeapiClient       api.Client
 	nextLocationAreaURL *string
 	prevLocationAreaURL *string
-	CaughtPokemon       map[string]pokeapi.PokemonResp
+	CaughtPokemon       map[string]api.Pokemon
 	currentLocation     *string
 }
 
