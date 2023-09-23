@@ -5,12 +5,12 @@ import (
 	"fmt"
 )
 
-func commandExplore(cfg *config, args ...string) error {
-	if len(args) != 1 {
-		return errors.New("must provide an area name to explore")
+func commandExplore(cfg *config, _ ...string) error {
+	if cfg.currentLocation == nil {
+		return errors.New("travel to a specific location in order to explore")
 	}
 
-	locationAreaName := args[0]
+	locationAreaName := *cfg.currentLocation
 	fmt.Printf("Exploring %s...\n", locationAreaName)
 
 	resp, err := cfg.pokeapiClient.GetLocationArea(locationAreaName)

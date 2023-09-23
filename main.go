@@ -11,6 +11,7 @@ type config struct {
 	nextLocationAreaURL *string
 	prevLocationAreaURL *string
 	caughtPokemon       map[string]pokeapi.PokemonResp
+	currentLocation     *string
 }
 
 func main() {
