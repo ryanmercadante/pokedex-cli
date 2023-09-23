@@ -8,7 +8,7 @@ import (
 
 func commandCatch(cfg *config, args ...string) error {
 	if len(args) != 1 {
-		return errors.New("must provide an area name to explore")
+		return errors.New("must provide a pokemon to catch")
 	}
 
 	pokemonName := args[0]
