@@ -13,7 +13,7 @@ func commandInspect(cfg *config, args ...string) error {
 	pokemonName := args[0]
 	pokemon, ok := cfg.caughtPokemon[pokemonName]
 	if !ok {
-		return fmt.Errorf("you have not caught a %s yet", pokemonName)
+		return fmt.Errorf("you haven't caught a %s yet", pokemonName)
 	}
 
 	fmt.Printf("\nName: %s\n", pokemon.Name)
