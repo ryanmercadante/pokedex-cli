@@ -4,6 +4,13 @@ import (
 	"errors"
 	"fmt"
 	"math/rand"
+	"strconv"
+	"time"
+)
+
+const (
+	pokeballResetTimer   = 1 * time.Minute
+	StarterPokeballCount = 5
 )
 
 func catch(cfg *CliConfig, args ...string) error {
@@ -13,6 +20,10 @@ func catch(cfg *CliConfig, args ...string) error {
 
 	if cfg.currentLocation == nil {
 		return errors.New("there are no pokemon to catch in this location area")
+	}
+
+	if cfg.PokeballCount == 0 {
+		return errors.New("you ran out of pokeballs! After " + pokeballResetTimer.String() + " you will have " + strconv.Itoa(StarterPokeballCount) + " more pokeballs")
 	}
 
 	pokemonName := args[0]
@@ -34,6 +45,17 @@ func catch(cfg *CliConfig, args ...string) error {
 
 			const threshold = 50
 			randNum := rand.Intn(pokemon.BaseExperience)
+			cfg.PokeballCount--
+
+			// if PokeballCount is 0 after decrementing, run a go routine to sleep
+			// for `pokeballResetTimer` and then reset PokeballCount to `StarterPokeballCount`
+			if cfg.PokeballCount == 0 {
+				go func() {
+					time.Sleep(pokeballResetTimer)
+					cfg.PokeballCount = StarterPokeballCount
+				}()
+			}
+
 			if randNum > threshold {
 				return fmt.Errorf("failed to catch %s", pokemonName)
 			}

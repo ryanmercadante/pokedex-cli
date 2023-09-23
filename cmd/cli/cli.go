@@ -15,6 +15,7 @@ type CliConfig struct {
 	prevLocationAreaURL *string
 	CaughtPokemon       map[string]api.Pokemon
 	currentLocation     *string
+	PokeballCount       int
 }
 
 func StartCli(cfg *CliConfig) {
